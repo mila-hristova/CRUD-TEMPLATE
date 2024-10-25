@@ -38,6 +38,18 @@ export default function UpdatePage() {
     }
   }
 
+  function handleImageChange(event) {
+    const file = event.target.files[0];
+    if (file.size < 500000) {
+      // image file size must be below 0,5MB
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setImage(event.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
   return (
     <section className="page" id="update-page">
       <div className="container">
@@ -55,13 +67,10 @@ export default function UpdatePage() {
           />
           <label htmlFor="image-url">Image</label>
           <input
-            id="image-url"
-            name="image-url"
-            type="url"
-            value={image}
-            aria-label="image"
-            placeholder="Paste an image url..."
-            onChange={(e) => setImage(e.target.value)}
+            type="file"
+            className="file-input"
+            accept="image/*"
+            onChange={handleImageChange}
           />
           <label htmlFor="image-preview"></label>
           <img
